@@ -1,0 +1,701 @@
+@charset "UTF-8";
+/**
+ * main.scss
+ * @author lee 
+ * @date 2015-06-23
+ *
+ */
+/**
+ * _mixin.scss 常见样式封装、兼容性封装、常见工具方法
+ * @author lee
+ * @date 2015-04-23
+ *
+ * --- flex ----
+ * #display_flex
+ * #flex
+ * #flex_grow
+ * #flex_shrink
+ * #flex_basis
+ * #flex_align_items
+ * #flex_justify_content
+ * #flex_childPos
+ *
+ * --- layout  ---
+ * #box_sizing
+ * #clear
+ *
+ * --- appearance ---
+ * #text_ellipsis
+ * #opacity
+ * #box_shadow
+ * #appearance
+ * #bg_gradient
+ *   #twoColor
+ *   #threeColor
+ *
+ * --- transform ---
+ * #transform
+ * #scale
+ * #skew
+ * #translate
+ * #rotate
+ * #perspective
+ * #origin
+ *
+ * --- transition ---
+ * #transition
+ * #transition-transform
+ *
+ * --- animation ---
+ * #animation
+ * #keyframes
+ *
+ * --- media ---
+ * #screenResolution
+ * #screenForPad
+ * #screenForPhone
+ * #screenForIE10AndLater
+ * #screenForIE8
+ *
+ * --- other ---
+ * #inlineBlock
+ * #square
+ * #absoluteCenter
+ * #triangle
+ * #bfc
+ * 
+ */
+/* ------------------------------ flex ------------------------------ */
+/* #display_flex */
+/* #flex */
+/**
+ * 伸缩流方向
+ * @param: row | row-reverse | column | column-reverse
+ */
+/* #flex_grow */
+/* #flex_shrink */
+/* #flex_basis */
+/* #flex_align_items */
+/* #flex_justify_content */
+/* #flex_childPos horizontal/vertical */
+/* ------------------------------ layout ------------------------------ */
+/* #box_sizing */
+/* #clear */
+/* line 252, ../sass/_mixin.scss */
+.ior_btmBar {
+  *zoom: 1;
+}
+/* line 254, ../sass/_mixin.scss */
+.ior_btmBar:after {
+  clear: both;
+  content: ".";
+  display: block;
+  line-height: 0;
+  font-size: 0;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+/* ------------------------------ appearance ------------------------------ */
+/* #text_ellipsis */
+/* #opacity */
+/* #box_shadow */
+/* #appearance */
+/* #bg_gradient 跨浏览器的渐变背景 */
+/* #twoColor 两种颜色的渐变 */
+/* 垂直渐变，自上而下 */
+/* 水平渐变，自左而右 */
+/* #threeColor 三种颜色的渐变 */
+/* 垂直渐变，自上而下 */
+/* 水平渐变，自左而右 */
+/* ------------------------------ transform ------------------------------ */
+/* #transform */
+/* #scale */
+/* #skew */
+/* #translate */
+/* #rotate */
+/* #perspective */
+/* #origin */
+/* ------------------------------ transition ------------------------------ */
+/* #transition */
+/* #transition-transform */
+/* ------------------------------ animation ------------------------------ */
+/* #animation */
+/* #keyframes */
+/* ------------------------------ media ------------------------------ */
+/* #screenResolution */
+/* #screenForPad 为Pad两栏布局模式写的代码可以包在这里 */
+/* #screenForPhone 只在Phone版使用，不在Pad版使用的样式 */
+/* #screenForIE10AndLater 兼容IE10&11 */
+/* screenForIE8 */
+/* ------------------------------ other ------------------------------ */
+/* #inlineBlock */
+/* #square 产生正方形的宽高 */
+/* #square 产生正方形的宽高 */
+/* #triangle 小三角 */
+/* #bfc */
+/**
+ * _reset.scss 重置样式
+ * @author lee
+ * @date 2015-04-23
+ */
+/* line 8, ../sass/_reset.scss */
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td, figure {
+  margin: 0;
+  padding: 0;
+}
+
+/* line 13, ../sass/_reset.scss */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
+  display: block;
+}
+
+/* line 17, ../sass/_reset.scss */
+body, input, textarea, select, button {
+  outline: none;
+  -webkit-text-size-adjust: none;
+}
+
+/* line 22, ../sass/_reset.scss */
+input, textarea, select, button {
+  font-size: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* line 27, ../sass/_reset.scss */
+input, textarea, fieldset, img {
+  border: none;
+}
+
+/* line 31, ../sass/_reset.scss */
+ul, ol, li {
+  list-style: none;
+}
+
+/* line 35, ../sass/_reset.scss */
+html, body {
+  height: 100%;
+  position: relative;
+}
+
+/* line 40, ../sass/_reset.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: inherit;
+}
+
+/* line 45, ../sass/_reset.scss */
+textarea {
+  overflow: auto;
+}
+
+/* line 49, ../sass/_reset.scss */
+img {
+  max-width: 100%;
+}
+
+/* line 53, ../sass/_reset.scss */
+:focus {
+  outline: none;
+}
+
+/* line 57, ../sass/_reset.scss */
+input[type=radio]::-ms-check, input[type=checkbox]::-ms-check {
+  display: none;
+}
+
+/* line 61, ../sass/_reset.scss */
+select::-ms-expand {
+  display: none;
+}
+
+/**
+ * _base.scss 项目基础样式、项目用方法、项目用function
+ * @author lee
+ * @date 2015-04-23
+ *
+ */
+/* line 9, ../sass/_base.scss */
+body, input, textarea, select, button {
+  font-family: "Helvetica Neue",STheiti,sans-serif;
+}
+
+/* line 13, ../sass/_base.scss */
+html, body {
+  width: 100%;
+}
+
+/* line 17, ../sass/_base.scss */
+body {
+  position: relative;
+  background: #fff;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #000;
+  word-break: break-all;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* line 27, ../sass/_base.scss */
+a {
+  color: #1d8ae5;
+  -webkit-tap-highlight-color: transparent;
+  /* 扩大通用a标签点击时的表现区域 */
+}
+/* line 31, ../sass/_base.scss */
+a, a:hover, a:active {
+  outline: none;
+}
+/* line 34, ../sass/_base.scss */
+a, a:hover {
+  text-decoration: none;
+}
+/* line 38, ../sass/_base.scss */
+a:active {
+  position: relative;
+}
+/* line 40, ../sass/_base.scss */
+a:active:before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  /* key note：事件穿透 */
+  top: -6px;
+  left: -6px;
+  width: 100%;
+  height: 100%;
+  padding: 6px;
+}
+
+/* 为适配旧版不支持flex的缩写方法，要设置这样一个空标签 */
+/* line 55, ../sass/_base.scss */
+.func_growSpace {
+  display: block;
+  width: 0px;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -o-box-flex: 1;
+  -ms-box-flex: 1;
+  -ms-flex: 1;
+  -moz-box-flex-grow: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-grow: 1;
+  flex-grow: 1;
+  -webkit-box-flex-basis: 0;
+  -moz-box-flex-basis: 0;
+  -webkit-flex-basis: 0;
+  -ms-flex-basis: 0;
+  flex-basis: 0;
+}
+
+/*主要部分初始化*/
+/* line 13, ../sass/main.scss */
+body {
+  background-color: #f9abab;
+}
+
+/* line 16, ../sass/main.scss */
+.beginTestBg {
+  background-color: #f35858;
+}
+
+/* line 19, ../sass/main.scss */
+.wrap {
+  display: none;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* line 28, ../sass/main.scss */
+.testTop {
+  height: 20%;
+}
+
+/* line 31, ../sass/main.scss */
+.testMid {
+  height: 40%;
+  padding: 0 10%;
+}
+
+/* line 35, ../sass/main.scss */
+.testBot {
+  padding: 0 10%;
+  text-align: center;
+}
+
+/* line 39, ../sass/main.scss */
+.testTop {
+  width: 100%;
+  background-color: #f9abab;
+}
+
+/* line 43, ../sass/main.scss */
+.testMid, .testBot {
+  width: 80%;
+  background-color: #f9abab;
+}
+
+/*开始页面*/
+/* line 49, ../sass/main.scss */
+.beginTestTop {
+  width: 100%;
+  padding: 0;
+}
+
+/* line 53, ../sass/main.scss */
+.beginTestMid {
+  width: 100%;
+  padding: 0;
+  background-color: #ffdf44;
+}
+
+/* line 58, ../sass/main.scss */
+.beginTestBot {
+  width: 100%;
+  padding: 0;
+}
+
+/* line 62, ../sass/main.scss */
+.beginBtnIMG {
+  width: 42%;
+  height: 12%;
+  z-index: 10;
+}
+
+/* line 67, ../sass/main.scss */
+.beginBtn {
+  background: url("http://static.iorcas.com/tuiguang/20150627_stock/images/bg_btn.png") no-repeat #ffdf44;
+  background-size: cover;
+  height: 71.5px;
+  width: 140px;
+  line-height: 71.5px;
+  text-align: center;
+  margin: 0 auto;
+  color: #828900;
+}
+/* line 76, ../sass/main.scss */
+.beginBtn:active, .beginBtn:focus {
+  color: rgba(130, 137, 0, 0.5);
+}
+
+/* line 80, ../sass/main.scss */
+.begin_btnCont {
+  margin-top: 16%;
+}
+
+/* line 84, ../sass/main.scss */
+.begin_topIMG, .begin_btnIMG {
+  width: 100%;
+  display: block;
+  /*height: 100%;*/
+}
+
+/* line 89, ../sass/main.scss */
+.begin_guideCont {
+  background-color: #ffdf44;
+  width: 90%;
+  padding: 5%;
+}
+
+/*答题页面*/
+/*顶部答题进度条*/
+/* line 97, ../sass/main.scss */
+.queIndex {
+  text-align: center;
+  margin-top: 5%;
+  font-size: 1.5em;
+}
+
+/* line 102, ../sass/main.scss */
+.queContent {
+  margin-top: 5%;
+  padding-left: 5%;
+}
+
+/* line 107, ../sass/main.scss */
+.proBarOut {
+  width: 100%;
+  height: 16%;
+  margin: 0;
+  background-color: #fff;
+}
+
+/* line 113, ../sass/main.scss */
+.proBarIn {
+  display: none;
+  float: left;
+  margin: 0;
+  width: 10%;
+  height: 100%;
+  background-color: #f46868;
+}
+
+/* line 121, ../sass/main.scss */
+.barText {
+  position: absolute;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* line 127, ../sass/main.scss */
+.mainMid {
+  height: 60%;
+}
+
+/* line 130, ../sass/main.scss */
+.mainBot {
+  height: 20%;
+}
+
+/*问题*/
+/* line 135, ../sass/main.scss */
+.queContent {
+  width: 80%;
+  padding: 0 10%;
+  font-size: 17px;
+}
+
+/*选项*/
+/* line 141, ../sass/main.scss */
+.chooseBtn {
+  height: 17%;
+  width: 100%;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 5px 0 #be1a1a inset,0 2px #f9abab inset, 0 -2px #f9abab inset;
+  text-align: left;
+  padding-left: 10%;
+  margin-top: 7%;
+  /*&:active, &:focus{
+  	background-color: rgba(254, 213, 89, 1);
+  }*/
+}
+
+/*上/下 一题*/
+/* line 156, ../sass/main.scss */
+.jumpQuePre,
+.jumpQueNext {
+  padding: 0 10%;
+  height: 40%;
+}
+
+/* line 161, ../sass/main.scss */
+.jumpQuePre {
+  float: left;
+}
+
+/* line 164, ../sass/main.scss */
+.jumpQueNext {
+  float: right;
+}
+
+/* line 167, ../sass/main.scss */
+.js_stock_normalBtn,
+.js_stock_restartBtn {
+  margin-top: 5%;
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  border-radius: 6px;
+  border: none;
+  box-shadow: 0 4px #a16f6f;
+}
+
+/* line 176, ../sass/main.scss */
+.js_stock_normalBtn {
+  background-color: rgba(255, 255, 255, 0.7);
+  color: #f35858;
+}
+/* line 179, ../sass/main.scss */
+.js_stock_normalBtn:active {
+  background: #fff;
+}
+
+/* line 183, ../sass/main.scss */
+.js_stock_restartBtn {
+  padding: 0 15%;
+  background-color: rgba(243, 88, 88, 0.7);
+  color: #feeeee;
+}
+/* line 187, ../sass/main.scss */
+.js_stock_restartBtn:active, .js_stock_restartBtn:focus {
+  background: #f35858;
+}
+
+/*分享给好友*/
+/* line 193, ../sass/main.scss */
+.share2FrdPeo {
+  width: 93%;
+  height: 100%;
+  background: url("http://static.iorcas.com/tuiguang/20150627_stock/images/bg_share.png") no-repeat;
+  background-size: contain;
+}
+
+/* line 199, ../sass/main.scss */
+.share2FrdBg {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+/*结果页面*/
+/* line 204, ../sass/main.scss */
+.restartBtn {
+  height: 40px;
+  margin-top: 2%;
+  z-index: 10;
+}
+
+/* line 209, ../sass/main.scss */
+.resultBot {
+  padding-bottom: 100px;
+  color: #fff;
+}
+
+/* line 213, ../sass/main.scss */
+.shareLink {
+  display: block;
+  margin-top: 10%;
+}
+
+/* line 217, ../sass/main.scss */
+.resultTop {
+  width: 80%;
+  padding: 0 10%;
+  background-color: #f9abab;
+}
+
+/* line 222, ../sass/main.scss */
+.resultMid {
+  text-align: center;
+  position: relative;
+  background-color: #f9abab;
+}
+
+/* line 227, ../sass/main.scss */
+.resultIMG {
+  width: 186px;
+  height: 178px;
+  margin: 20px auto 0;
+}
+
+/* line 232, ../sass/main.scss */
+.resultTxt {
+  font-size: 1.1em;
+}
+
+/* line 235, ../sass/main.scss */
+.resultHeadTxt {
+  color: #be1a1a;
+  display: inline-block;
+  margin-top: 5%;
+}
+
+/* line 240, ../sass/main.scss */
+.photo {
+  height: 52px;
+  width: 52px;
+  /*border: 1px solid red;*/
+  position: absolute;
+  left: 50%;
+  margin: 58px 0 0 -32.5px;
+}
+
+/* line 248, ../sass/main.scss */
+.ior_btmBar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 60px;
+  padding: 12px 16px;
+  box-sizing: border-box;
+  background: #fff;
+}
+
+/* line 259, ../sass/main.scss */
+.ior_btmBar .logo,
+.ior_btmBar .text {
+  float: left;
+}
+
+/* line 263, ../sass/main.scss */
+.ior_btmBar .logo {
+  width: 36px;
+  height: 36px;
+}
+
+/* line 267, ../sass/main.scss */
+.ior_btmBar .text {
+  margin: -1px 0 0 12px;
+  text-align: left;
+  line-height: 20px;
+  font-size: 0.9em;
+  color: #000;
+  _display: inline;
+}
+
+/* line 275, ../sass/main.scss */
+.ior_btmBar .download {
+  float: right;
+  height: 36px;
+  line-height: 36px;
+  padding: 0 11px;
+  font-size: 0.9em;
+  color: #00a0e9;
+  border-radius: 5px;
+  border: 1px solid #00a0e9;
+}
+/* line 284, ../sass/main.scss */
+.ior_btmBar .download:active {
+  background: #c2e7f8;
+}
+
+/* 媒体查询 iphone4*/
+@media only screen and (max-device-height: 480px) {
+  /*将规则面板的字体缩小*/
+  /* line 293, ../sass/main.scss */
+  body {
+    font-size: 10.5px;
+  }
+
+  /* line 296, ../sass/main.scss */
+  .resultIMG {
+    margin: 0 auto;
+  }
+
+  /* line 299, ../sass/main.scss */
+  .photo {
+    margin-top: 34px;
+  }
+}
+/*ipad适配*/
+@media only screen and (min-device-width: 768px) {
+  /* line 306, ../sass/main.scss */
+  .mainMid {
+    height: 60%;
+  }
+
+  /* line 309, ../sass/main.scss */
+  .chooseBtn {
+    margin-top: 3%;
+  }
+
+  /* line 312, ../sass/main.scss */
+  .mainBot {
+    height: 20%;
+  }
+
+  /* line 315, ../sass/main.scss */
+  .js_stock_normalBtn, .jumpQueNext {
+    height: 40%;
+  }
+
+  /* line 318, ../sass/main.scss */
+  .resultMid {
+    height: 50%;
+  }
+}

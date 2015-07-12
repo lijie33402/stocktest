@@ -1,0 +1,701 @@
+@charset "utf-8";
+/**
+ * _mixin.scss 常见样式封装、兼容性封装、常见工具方法
+ * @author lee
+ * @date 2015-04-23
+ *
+ * --- flex ----
+ * #display_flex
+ * #flex
+ * #flex_grow
+ * #flex_shrink
+ * #flex_basis
+ * #flex_align_items
+ * #flex_justify_content
+ * #flex_childPos
+ *
+ * --- layout  ---
+ * #box_sizing
+ * #clear
+ *
+ * --- appearance ---
+ * #text_ellipsis
+ * #opacity
+ * #box_shadow
+ * #appearance
+ * #bg_gradient
+ *   #twoColor
+ *   #threeColor
+ *
+ * --- transform ---
+ * #transform
+ * #scale
+ * #skew
+ * #translate
+ * #rotate
+ * #perspective
+ * #origin
+ *
+ * --- transition ---
+ * #transition
+ * #transition-transform
+ *
+ * --- animation ---
+ * #animation
+ * #keyframes
+ *
+ * --- media ---
+ * #screenResolution
+ * #screenForPad
+ * #screenForPhone
+ * #screenForIE10AndLater
+ * #screenForIE8
+ *
+ * --- other ---
+ * #inlineBlock
+ * #square
+ * #absoluteCenter
+ * #triangle
+ * #bfc
+ * 
+ */
+
+/* ------------------------------ flex ------------------------------ */
+
+/* #display_flex */
+%display_flex 
+{
+  display: -o-box;
+  display: -moz-box;
+  display: -webkit-box;
+  display: box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+@mixin display_flex
+{
+  display: -o-box;
+  display: -moz-box;
+  display: -webkit-box;
+  display: box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
+/* #flex */
+@mixin flex($num)
+{
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  -webkit-box-flex: $num;
+  -moz-box-flex: $num;
+  -o-box-flex: $num;
+  -ms-box-flex: $num;
+  -webkit-flex: $num;
+  -moz-flex: $num;
+  -o-flex: $num;
+  -ms-flex: $num;
+  flex: $num;
+}
+/**
+ * 伸缩流方向
+ * @param: row | row-reverse | column | column-reverse
+ */
+@mixin flex_direction_ForOld($direction){
+  @if $direction == row { //old版本还有 inline-axis | block-axis，暂不考虑
+    -webkit-box-orient:horizontal ;
+    -moz-box-orient:horizontal ;
+    box-orient:horizontal;
+  } @else if $direction == column {
+    -webkit-box-orient:vertical ;
+    -moz-box-orient:vertical ;
+        box-orient:vertical;
+  } @else if $direction == row-reverse{
+    -webkit-box-orient:horizontal ;
+    -moz-box-orient:horizontal ;
+     box-orient:horizontal;
+    -webkit-box-direction: reverse;
+    -moz-box-direction: reverse;
+    box-direction: reverse;
+  } @else{
+    -webkit-box-orient:vertical ;
+    -moz-box-orient:vertical ;
+    box-orient:vertical;
+    -webkit-box-direction: reverse;
+    -moz-box-direction: reverse;
+    box-direction: reverse;
+  }
+}
+@mixin flex_direction($direction){
+  @include flex_direction_ForOld($direction);
+  -ms-flex-direction:$direction;
+  -webkit-flex-direction:$direction;
+  flex-direction:$direction;
+}
+
+
+/* #flex_grow */
+@mixin flex_grow($num) 
+{
+  -webkit-box-flex: $num;
+  -moz-box-flex: $num;
+  -o-box-flex: $num;
+  -ms-box-flex: $num;
+  -ms-flex: $num; // for IE10
+  -moz-box-flex-grow: $num;
+  -webkit-flex-grow: $num;
+  -ms-flex-grow: $num;
+  flex-grow: $num; 
+}
+
+/* #flex_shrink */
+@mixin flex_shrink($num) 
+{
+  -webkit-box-flex-shrink: $num;
+  -moz-box-flex-shrink: $num;
+  -webkit-flex-shrink: $num;
+  -ms-flex-shrink: $num;
+  flex-shrink: $num; 
+}
+
+/* #flex_basis */
+@mixin flex_basis($num) 
+{
+  -webkit-box-flex-basis: $num;
+  -moz-box-flex-basis: $num;
+  -webkit-flex-basis: $num;
+  -ms-flex-basis: $num;
+  flex-basis: $num; 
+}
+
+/* #flex_align_items */
+@mixin flex_align_items($value)
+{
+    // box-align:start|end|center|baseline|stretch
+    @if $value == 'flex-start' {
+      -webkit-box-align: start;
+      -moz-box-align: start;
+      -o-box-align: start;
+      -ms-box-align: start;
+    } @else if $value == 'flex-end' {
+      -webkit-box-align: end;
+      -moz-box-align: end;
+      -o-box-align: end;
+      -ms-box-align: end;
+    } @else {
+      -webkit-box-align: $value;
+      -moz-box-align: $value;
+      -o-box-align: $value;
+      -ms-box-align: $value;
+    }
+    -webkit-align-items: $value;
+    -moz-align-items: $value;
+    -o-align-items: $value;
+    -ms-align-items: $value;
+    -ms-flex-align: $value; // for IE10
+    align-items: $value;    
+}
+
+/* #flex_justify_content */
+@mixin flex_justify_content($value)
+{
+  // box-pack:start|end|center|justify
+  // flex-pack:start|end|center|justify|distribute, for IE10
+  @if $value == 'space-around' {
+    -webkit-box-pack: justify;
+    -moz-box-pack: justify; 
+    -ms-flex-pack: distribute;
+  } @else if $value == 'flex-start' {
+    -webkit-box-pack: start;
+    -moz-box-pack: start; 
+    -ms-flex-pack: start;
+  } @else if $value == 'flex-end' {
+    -webkit-box-pack: end;
+    -moz-box-pack: end; 
+    -ms-flex-pack: end;
+  } @else {
+    -webkit-box-pack: $value;
+    -moz-box-pack: $value; 
+    -ms-flex-pack: $value; 
+  }
+  -webkit-justify-content: $value;
+  -ms-justify-content: $value;
+  -ms-flex-pack: $value; // for IE10
+  justify-content: $value;
+}
+
+/* #flex_childPos horizontal/vertical */
+@mixin flex_childPos($dir, $value) 
+{
+  @if $dir == 'vertical' {
+    @include flex_align_items($value);
+  } 
+  @if $dir == 'horizontal' {
+    @include flex_justify_content($value);
+  }
+}
+
+/* ------------------------------ layout ------------------------------ */
+
+/* #box_sizing */
+@mixin box_sizing($value)
+{
+  -webkit-box-sizing: $value;
+  -moz-box-sizing: $value;
+  box-sizing: $value;
+}
+
+/* #clear */
+%clear {
+  *zoom: 1;
+  &:after {
+    clear: both;
+    content: ".";
+    display: block;
+    line-height: 0;
+    font-size: 0;
+    overflow: hidden;
+    visibility: hidden;
+  }
+}
+
+/* ------------------------------ appearance ------------------------------ */
+
+/* #text_ellipsis */
+%text_ellipsis 
+{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  word-break:break-all;
+}
+
+/* #opacity */
+@mixin opacity($var)
+{
+  -webkit-opacity:$var;
+  -moz-opacity:$var;
+  -khtml-opacity:$var;
+  opacity:$var;
+  filter:alpha(opacity=$var*100);
+}
+
+/* #box_shadow */
+// #box_shadow
+@mixin box_shadow($value)
+{
+  -webkit-box-shadow:$value; 
+  -moz-box-shadow:$value; 
+  box-shadow:$value;
+}
+
+/* #appearance */
+@mixin appearance($value) { // 暂不支持IE和Opera
+  -moz-appearance:$value;
+  -webkit-appearance:$value;
+  appearance:$value;
+}
+
+/* #bg_gradient 跨浏览器的渐变背景 */
+/* #twoColor 两种颜色的渐变 */
+/* 垂直渐变，自上而下 */
+@mixin gradient_vertical($start-color: #555, $end-color: #333, $start-percent: 0%, $end-percent: 100%){
+  background-image: -webkit-linear-gradient(top, $start-color $start-percent, $end-color $end-percent);  // Safari 5.1-6, Chrome 10+
+  background-image: -o-linear-gradient(top, $start-color $start-percent, $end-color $end-percent);  // Opera 12
+  background-image: linear-gradient(to bottom, $start-color $start-percent, $end-color $end-percent); // Standard, IE10, Firefox 16+, Opera 12.10+, Safari 7+, Chrome 26+
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{ie-hex-str($start-color)}', endColorstr='#{ie-hex-str($end-color)}', GradientType=0); // IE9 and down
+}
+
+/* 水平渐变，自左而右 */
+@mixin gradient_horizontal($start-color: #555, $end-color: #333, $start-percent: 0%, $end-percent: 100%){
+  background-image: -webkit-linear-gradient(left, color-stop($start-color $start-percent), color-stop($end-color $end-percent)); // Safari 5.1-6, Chrome 10+
+  background-image: -o-linear-gradient(left, $start-color $start-percent, $end-color $end-percent); // Opera 12
+  background-image: linear-gradient(to right, $start-color $start-percent, $end-color $end-percent); // Standard, IE10, Firefox 16+, Opera 12.10+, Safari 7+, Chrome 26+
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{ie-hex-str($start-color)}', endColorstr='#{ie-hex-str($end-color)}', GradientType=1); // IE9 and down
+}
+
+/* #threeColor 三种颜色的渐变 */
+/* 垂直渐变，自上而下 */
+@mixin gradient_vertical_threeColor($start-color: #555, $middle-color: #444, $end-color: #333, $start-percent: 0%, $middle-percent: 50%, $end-percent: 100%){
+  background-image: -webkit-linear-gradient(top, $start-color $start-percent, $middle-color $middle-percent, $end-color $end-percent);  // Safari 5.1-6, Chrome 10+
+  background-image: -o-linear-gradient(top, $start-color $start-percent, $middle-color $middle-percent, $end-color $end-percent);  // Opera 12
+  background-image: linear-gradient(to bottom, $start-color $start-percent, $middle-color $middle-percent, $end-color $end-percent); // Standard, IE10, Firefox 16+, Opera 12.10+, Safari 7+, Chrome 26+
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{ie-hex-str($start-color)}', endColorstr='#{ie-hex-str($end-color)}', GradientType=0); // IE9 and down
+}
+
+/* 水平渐变，自左而右 */
+@mixin gradient_horizontal_threeColor($start-color: #555, $middle-color: #444, $end-color: #333, $start-percent: 0%, $middle-percent: 50%, $end-percent: 100%){
+  background-image: -webkit-linear-gradient(left, color-stop($start-color $start-percent), color-stop($middle-color $middle-percent), color-stop($end-color $end-percent)); // Safari 5.1-6, Chrome 10+
+  background-image: -o-linear-gradient(left, $start-color $start-percent, $middle-color $middle-percent, $end-color $end-percent); // Opera 12
+  background-image: linear-gradient(to right, $start-color $start-percent, $middle-color $middle-percent, $end-color $end-percent); // Standard, IE10, Firefox 16+, Opera 12.10+, Safari 7+, Chrome 26+
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{ie-hex-str($start-color)}', endColorstr='#{ie-hex-str($end-color)}', GradientType=1); // IE9 and down
+}
+
+/* ------------------------------ transform ------------------------------ */
+
+/* #transform */
+@mixin transform($value) {
+  -o-transform:$value;
+  -moz-transform:$value;
+  -ms-transform:$value;
+  -webkit-transform:$value;
+  transform:$value;
+}
+
+/* #scale */
+@mixin scale($ratio...){
+    -webkit-transform: scale($ratio);
+    -moz-transform: scale($ratio);
+    -ms-transform: scale($ratio); // IE9 only
+    -o-transform: scale($ratio);
+    transform: scale($ratio);
+}
+@mixin scale($ratioX, $ratioY...){
+    -webkit-transform: scale($ratioX, $ratioY);
+    -moz-transform: scale($ratioX, $ratioY);
+    -ms-transform: scale($ratioX, $ratioY); // IE9 only
+    -o-transform: scale($ratioX, $ratioY);
+    transform: scale($ratioX, $ratioY);
+}
+@mixin scaleX($ratio){
+    -webkit-transform: scaleX($ratio);
+    -moz-transform: scaleX($ratio);
+    -ms-transform: scaleX($ratio); // IE9 only
+    -o-transform: scaleX($ratio);
+    transform: scaleX($ratio);
+}
+@mixin scaleY($ratio){
+    -webkit-transform: scaleY($ratio);
+    -moz-transform: scaleY($ratio);
+    -ms-transform: scaleY($ratio); // IE9 only
+    -o-transform: scaleY($ratio);
+    transform: scaleY($ratio);
+}
+
+/* #skew */
+@mixin skew($x, $y){
+    -webkit-transform: skew($x, $y);
+    -moz-transform: skew($x, $y);
+    -ms-transform: skewX($x) skewY($y); // See https://github.com/twbs/bootstrap/issues/4885; IE9+
+    -o-transform: skew($x, $y);
+    transform: skew($x, $y);
+}
+
+/* #translate */
+@mixin translate($x, $y){
+    -webkit-transform: translate($x, $y);
+    -moz-transform: translate($x, $y);
+    -ms-transform: translate($x, $y); // IE9 only
+    -o-transform: translate($x, $y);
+    transform: translate($x, $y);
+}
+@mixin translate3d($x, $y, $z){
+    -webkit-transform: translate3d($x, $y, $z);
+    -moz-transform: translate3d($x, $y, $z);
+    transform: translate3d($x, $y, $z);
+}
+
+/* #rotate */
+@mixin rotate($degrees) {
+    -webkit-transform: rotate($degrees);
+    -moz-transform: rotate($degrees);
+    -ms-transform: rotate($degrees); // IE9 only
+    -o-transform: rotate($degrees);
+    transform: rotate($degrees);
+}
+@mixin rotateX($degrees) {
+    -webkit-transform: rotateX($degrees);
+    -moz-transform: rotateX($degrees);
+    -ms-transform: rotateX($degrees); // IE9 only
+    -o-transform: rotateX($degrees);
+    transform: rotateX($degrees);
+}
+@mixin rotateY($degrees) {
+    -webkit-transform: rotateY($degrees);
+    -moz-transform: rotateY($degrees);
+    -ms-transform: rotateY($degrees); // IE9 only
+    -o-transform: rotateY($degrees);
+    transform: rotateY($degrees);
+}
+
+/* #perspective */
+@mixin perspective($perspective) {
+    -webkit-perspective: $perspective;
+    -moz-perspective: $perspective;
+    perspective: $perspective;
+}
+
+ /* #origin */
+@mixin perspective-origin($perspective) {
+    -webkit-perspective-origin: $perspective;
+    -moz-perspective-origin: $perspective;
+    perspective-origin: $perspective;
+}
+@mixin transform-origin($origin) {
+    -webkit-transform-origin: $origin;
+    -moz-transform-origin: $origin;
+    -ms-transform-origin: $origin; // IE9 only
+    transform-origin: $origin;
+}
+
+/* ------------------------------ transition ------------------------------ */
+
+/* #transition */
+@mixin transition($transition...) {
+    -webkit-transition: $transition;
+    -moz-transition: $transition;
+    -o-transition: $transition;
+    transition: $transition;
+}
+@mixin transition-property($transition-property...) {
+    -webkit-transition-property: $transition-property;
+    -moz-transition-property: $transition-property;
+    -o-transition-property: $transition-property;
+    transition-property: $transition-property;
+}
+@mixin transition-delay($transition-delay) {
+    -webkit-transition-delay: $transition-delay;
+    -moz-transition-delay: $transition-delay;
+    -o-transition-delay: $transition-delay;
+    transition-delay: $transition-delay;
+}
+@mixin transition-duration($transition-duration...) {
+    -webkit-transition-duration: $transition-duration;
+    -moz-transition-duration: $transition-duration;
+    -o-transition-duration: $transition-duration;
+    transition-duration: $transition-duration;
+}
+@mixin transition-timing-function($timing-function) {
+    -webkit-transition-timing-function: $timing-function;
+    -moz-transition-timing-function: $timing-function;
+    -o-transition-timing-function: $timing-function;
+    transition-timing-function: $timing-function;
+}
+
+/* #transition-transform */
+@mixin transition-transform($transform...) {
+    -webkit-transition: -webkit-transform $transform;
+    -moz-transition: -webkit-transform $transform;
+    -o-transition: -o-transform $transform;
+    transition: transform $transform;
+}
+
+/* ------------------------------ animation ------------------------------ */
+
+/* #animation */
+@mixin animation($animation) {
+    -webkit-animation: $animation;
+    -moz-animation: $animation;
+    -o-animation: $animation;
+    animation: $animation;
+}
+@mixin animation-name($name) {
+    -webkit-animation-name: $name;
+    -moz-animation-name: $name;
+    -o-animation-name: $name;
+    animation-name: $name;
+}
+@mixin animation-duration($duration) {
+    -webkit-animation-duration: $duration;
+    -moz-animation-duration: $duration;
+    -o-animation-duration: $duration;
+    animation-duration: $duration;
+}
+@mixin animation-timing-function($timing-function) {
+    -webkit-animation-timing-function: $timing-function;
+    -moz-animation-timing-function: $timing-function;
+    -o-animation-timing-function: $timing-function;
+    animation-timing-function: $timing-function;
+}
+@mixin animation-delay($delay) {
+    -webkit-animation-delay: $delay;
+    -moz-animation-delay: $delay;
+    -o-animation-delay: $delay;
+    animation-delay: $delay;
+}
+@mixin animation-iteration-count($iteration-count) {
+    -webkit-animation-iteration-count: $iteration-count;
+    -moz-animation-iteration-count: $iteration-count;
+    -o-animation-iteration-count: $iteration-count;
+    animation-iteration-count: $iteration-count;
+}
+@mixin animation-direction($direction) {
+    -webkit-animation-direction: $direction;
+    -moz-animation-direction: $direction;
+    -o-animation-direction: $direction;
+    animation-direction: $direction;
+}
+@mixin animation-fill-mode($fill-mode) {
+    -webkit-animation-fill-mode: $fill-mode;
+    -moz-animation-fill-mode: $fill-mode;
+    -o-animation-fill-mode: $fill-mode;
+    animation-fill-mode: $fill-mode;
+}
+
+/* #keyframes */
+@mixin keyframes($name){
+    @-webkit-keyframes #{$name} {
+        @content;
+    }
+    @-moz-keyframes #{$name} {
+        @content;
+    }
+    @-o-keyframes #{$name} {
+        @content;
+    }
+    @keyframes #{$name} {
+        @content;
+    }
+}
+// modified by Cc
+// 封装keyframes作用不大，上面的写法不能根据前缀对应相应的内容。当然可以在内部做前缀的判断，但 sass v3.4.1 之后有修改日志：
+// Don’t put rulesets inside @keyframes directives when bubbling them up to the top level.
+// 以下例子可用于说明区别：（可自行用不同版本sass测试，也可线上测试：http://sassmeister.com/）
+// @mixin keyframes($animationName) {
+//     @-webkit-keyframes #{$animationName} {
+//         $browser: '-webkit-'; @content;
+//     }
+//     @-moz-keyframes #{$animationName} {
+//         $browser: '-moz-'; @content;
+//     }
+//     @-o-keyframes #{$animationName} {
+//         $browser: '-o-'; @content;
+//     }
+//     @keyframes #{$animationName} {
+//         $browser: ''; @content;
+//     }
+// } 
+// $browser: null;
+// @include keyframes('rotate') {
+//     from { #{$browser}transform: rotate(0deg);}
+//     to { #{$browser}transform: rotate(360deg);}
+// }
+
+/* ------------------------------ media ------------------------------ */
+
+/* #screenResolution */
+@mixin screenResolution($num)
+{
+  @media only screen and (-webkit-min-device-pixel-ratio: $num),
+    only screen and (min--moz-device-pixel-ratio: $num),
+    only screen and (-o-min-device-pixel-ratio: $num),
+    only screen and (min-device-pixel-ratio: $num),
+    only screen and (min-resolution: #{$num}dppx),
+    only screen and (min-resolution: #{$num*96}dpi) {
+      @content; 
+    }
+}
+
+/* #screenForPad 为Pad两栏布局模式写的代码可以包在这里 */
+@mixin screenForPad
+{
+  @media (min-width:$screen_width_pad) {
+    @content;
+  }
+  @media \0screen {
+    @content;
+  }
+}
+
+/* #screenForPhone 只在Phone版使用，不在Pad版使用的样式 */
+@mixin screenForPhone
+{
+  @media (max-width:$screen_width_pad) {
+    @content;
+  }
+}
+
+/* #screenForIE10AndLater 兼容IE10&11 */
+@mixin screenForIE10AndLater
+{
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    @content;
+  }
+}
+
+/* screenForIE8 */
+@mixin forIE8 {
+  @media \0screen {
+    @content;
+  }
+}
+
+/* ------------------------------ other ------------------------------ */
+
+/* #inlineBlock */
+@mixin inlineBlock {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+}
+
+/* #square 产生正方形的宽高 */
+@mixin square($length){
+  width: $length;
+  height: $length;
+}
+
+/* #square 产生正方形的宽高 */
+// #absoluteCenter
+@mixin absoluteCenter($width, $height){
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: (-$height)/2, 0, 0, (-$width)/2; 
+}
+
+/* #triangle 小三角 */
+%triangleCommonStyle {
+  display: block;
+  content: " ";
+  width: 0;
+  line-height: 0;
+  font-size: 0;
+  border-style: solid;
+  border-color: transparent;
+}
+@mixin triangle($width, $height, $direction, $borderColor, $ie6borderColor:#f00) {
+  @extend %triangleCommonStyle;
+  border-width: $width $height;
+  _border-color: $ie6borderColor;
+  _filter: chroma(color=$ie6borderColor);
+  /* 向上小三角 */
+  @if $direction == top {
+    border-top: 0;
+    border-bottom-color: $borderColor;
+    _border-bottom-color: $borderColor;
+  }
+  /* 向下小三角 */
+  @else if $direction == bottom {
+    border-bottom: 0;
+    border-top-color: $borderColor;
+    _border-top-color: $borderColor;
+  }
+  /* 向左小三角 */
+  @else if $direction == left {
+    border-left: 0;
+    border-right-color: $borderColor;
+    _border-right-color: $borderColor;
+  }
+  /* 向右小三角 */
+  @else if $direction == right {
+    border-right: 0;
+    border-left-color: $borderColor;
+    _border-left-color: $borderColor;
+  }
+}
+
+/* #bfc */
+@mixin bfc {
+  overflow: hidden;
+  zoom: 1;
+}
+
